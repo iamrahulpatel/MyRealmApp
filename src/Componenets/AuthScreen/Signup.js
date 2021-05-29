@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: "#fff",
         fontWeight: "bold",
-        paddingLeft:"25%"
+        paddingLeft:"20%"
     }
 
 });
