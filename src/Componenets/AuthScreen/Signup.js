@@ -83,7 +83,6 @@ const Signup = () => {
         <View style={styles.container}>
             <View style={styles.formContainer}>
                 <View style={styles.form}>
-                    <Text>Storing in DB index[0], but retriving as index[1]</Text>
                     <TextInput keyboardType="numeric" onChangeText={e => setId(e)} placeholder="Enter your Id" style={styles.input}></TextInput>
                     <TextInput onChangeText={e => setName(e)} placeholder="Enter your Name" style={styles.input}></TextInput>
                     <TextInput onChangeText={e => setEmail(e)} placeholder="Enter your Email" style={styles.input}></TextInput>
