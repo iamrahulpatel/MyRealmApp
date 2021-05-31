@@ -27,6 +27,8 @@ const Signup = () => {
             realm.write(() => {
                 realm.create('User', addUser);
             })
+            console.log(realm.objects("User").sorted('_id', true))
+
             console.log("New User Added")
             alert("New User Added Successfully")
         }
@@ -40,6 +42,7 @@ const Signup = () => {
             const realm = await Realm.open({ schema: [UserSchema] });
 
             const data = realm.objects('User');
+            //filter method returns the array which follow the conditions, it does not chage the original array
             const removeUser = data.filtered(`_id="${_id}"`);
 
             realm.write(() => {
@@ -133,7 +136,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         color: '#4E4AAD',
         fontSize: 20,
-        fontWeight:"bold"
+        fontWeight: "bold"
 
     },
     btn: {
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: "#fff",
         fontWeight: "bold",
-        paddingLeft:"20%"
+        paddingLeft: "20%"
     }
 
 });
