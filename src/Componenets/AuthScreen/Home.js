@@ -14,20 +14,23 @@ const Home = () => {
 
     const [users, setUsers] = useState([]);
 
+
+
     const getDataFromDatabase = async () => {
         try {
             const realm = await Realm.open({ schema: [UserSchema] });
-            const entries = realm.objects('User');
+            //sorting via id
+            const entries = realm.objects("User").sorted('_id')
             setUsers(entries)
         }
-        catch(error){
+        catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(()=>{
-        getDataFromDatabase()
-    },[])
+    useEffect(() => {
+        getDataFromDatabase();
+    }, [])
 
     const gotoSignup = () => {
         navigation.navigate('Signup')
@@ -39,16 +42,18 @@ const Home = () => {
             <View style={styles.formContainer}>
                 <View style={styles.form}>
 
+                   
+
 
                     <FlatList
-                    data={users}
-                    renderItem={({item})=>(
-                        <View>
-                        <Text style={styles.list}><Text>{item?._id}.</Text>  {item.name}  {item.email}</Text>
-                        <Text>---------------------------------------------------------------------</Text>
-                        </View>
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
+                        data={users}
+                        renderItem={({ item }) => (
+                            <View>
+                                <Text style={styles.list}><Text>{item?._id}.</Text>  {item.name}  {item.email}</Text>
+                                <Text>---------------------------------------------------------------------</Text>
+                            </View>
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
 
                     />
 
@@ -67,7 +72,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
     },
-    
+
     formContainer: {
         backgroundColor: "#fff",
         borderRadius: 20,
@@ -107,8 +112,8 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
     },
-    list:{
-        fontSize:25
+    list: {
+        fontSize: 25
     }
 
 });
