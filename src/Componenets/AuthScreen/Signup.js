@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 
 import Realm from "realm";
@@ -13,6 +13,7 @@ const Signup = () => {
     const [_id, setId] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [city, setCity] = useState('');
 
     const navigation = useNavigation();
 
@@ -21,16 +22,23 @@ const Signup = () => {
             const addUser = {
                 _id,
                 name,
-                email
+                email,
+                city
             };
-            const realm = await Realm.open({ schema: [UserSchema] });
+            const realm = await Realm.open({
+                schema: [UserSchema],
+                schemaVersion: 2,
+
+            });
+
             realm.write(() => {
                 realm.create('User', addUser);
             })
-            console.log(realm.objects("User").sorted('_id', true))
 
+            //inserting data line wise as per user enters
+            // console.log(realm.objects("User").sorted('_id', true))
             console.log("New User Added")
-            alert("New User Added Successfully")
+            // alert("New User Added Successfully")
         }
         catch (error) {
             console.log(error)
@@ -39,7 +47,7 @@ const Signup = () => {
 
     const deleteUser = async () => {
         try {
-            const realm = await Realm.open({ schema: [UserSchema] });
+            const realm = await Realm.open({ schema: [UserSchema], schemaVersion: 2 });
 
             const data = realm.objects('User');
             //filter method returns the array which follow the conditions, it does not chage the original array
@@ -50,7 +58,7 @@ const Signup = () => {
             });
 
             console.log("Delete User ", removeUser);
-            alert("User Deleted Successfully")
+            // alert("User Deleted Successfully")
         }
         catch (error) {
             console.log(error)
@@ -59,7 +67,7 @@ const Signup = () => {
 
     const updateUser = async () => {
         try {
-            const realm = await Realm.open({ schema: [UserSchema] });
+            const realm = await Realm.open({ schema: [UserSchema], schemaVersion: 2 });
 
             realm.write(() => {
 
@@ -70,7 +78,7 @@ const Signup = () => {
             });
 
             console.log("User Updated")
-            alert("User Updated Successfully")
+            // alert("User Updated Successfully")
 
         }
         catch (error) {
@@ -89,6 +97,7 @@ const Signup = () => {
                     <TextInput keyboardType="numeric" onChangeText={e => setId(e)} placeholder="Enter your Id" style={styles.input}></TextInput>
                     <TextInput onChangeText={e => setName(e)} placeholder="Enter your Name" style={styles.input}></TextInput>
                     <TextInput onChangeText={e => setEmail(e)} placeholder="Enter your Email" style={styles.input}></TextInput>
+                    <TextInput onChangeText={e => setCity(e)} placeholder="Enter your City" style={styles.input}></TextInput>
 
                     <TouchableOpacity style={styles.btn}>
                         <Text style={styles.btntext} onPress={insertUser} >Insert User</Text>
