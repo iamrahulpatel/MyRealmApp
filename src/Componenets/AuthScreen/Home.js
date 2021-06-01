@@ -16,12 +16,29 @@ const Home = () => {
 
 
 
-    const getDataFromDatabase = async () => {
+    const getUserFromDatabase = async () => {
         try {
-            const realm = await Realm.open({ schema: [UserSchema] });
+            const realm = await Realm.open({
+                schema: [UserSchema],
+                schemaVersion: 2,
+                migration: (oldRealm, newRealm) => {
+                    // only apply this change if upgrading to schemaVersion 2
+                    if (oldRealm.schemaVersion = 1) {
+                        const oldObjects = oldRealm.objects('User');
+                        const newObjects = newRealm.objects('User');
+                        // loop through all objects and set the fullName property in the new schema
+                        for (const objectIndex in oldObjects) {
+                            const oldObject = oldObjects[objectIndex];
+                            const newObject = newObjects[objectIndex];
+                            newObject.name = `${oldObject.name} ${oldObject.city}`;
+                            console.log("newObject",newObject.name)
+                        }
+                    }
+                }
+            });
             //sorting via id
-            const entries = realm.objects("User").sorted('_id')
-            setUsers(entries)
+            const userList = realm.objects("User").sorted('_id')
+            setUsers(userList)
         }
         catch (error) {
             console.log(error)
@@ -29,7 +46,7 @@ const Home = () => {
     }
 
     useEffect(() => {
-        getDataFromDatabase();
+        getUserFromDatabase();
     }, [])
 
     const gotoSignup = () => {
@@ -42,14 +59,12 @@ const Home = () => {
             <View style={styles.formContainer}>
                 <View style={styles.form}>
 
-                   
-
 
                     <FlatList
                         data={users}
                         renderItem={({ item }) => (
                             <View>
-                                <Text style={styles.list}><Text>{item?._id}.</Text>  {item.name}  {item.email}</Text>
+                                <Text style={styles.list}><Text>{item._id}.</Text>  {item.name}  {item.email}  {item.city}</Text>
                                 <Text>---------------------------------------------------------------------</Text>
                             </View>
                         )}
@@ -113,7 +128,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     list: {
-        fontSize: 25
+        fontSize: 15
     }
 
 });

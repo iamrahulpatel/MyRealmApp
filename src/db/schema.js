@@ -4,7 +4,8 @@ const UserSchema = {
     properties:{
         _id:"string",
         name:"string",
-        email:"string"
+        email:"string",
+        city:"string"
     }
 };
 
