@@ -12,15 +12,13 @@ const Stack = createStackNavigator();
 
 const AppNavigation = () => {
     return (
-        <>
             <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: true }}>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="Signup" component={Signup} />
                     <Stack.Screen name="Home" component={Home} />
 
                 </Stack.Navigator>
             </NavigationContainer>
-        </>
     );
 
 }

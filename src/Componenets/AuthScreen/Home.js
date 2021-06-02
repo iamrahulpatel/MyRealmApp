@@ -6,6 +6,7 @@ import Realm from "realm";
 import { useNavigation } from '@react-navigation/native';
 
 import { UserSchema } from "../../db/schema";
+import Header from "../common/Header";
 
 
 const Home = () => {
@@ -22,11 +23,10 @@ const Home = () => {
                 schema: [UserSchema],
                 schemaVersion: 2,
                 migration: (oldRealm, newRealm) => {
-                    // only apply this change if upgrading to schemaVersion 2
                     if (oldRealm.schemaVersion = 1) {
-                        const oldObjects = oldRealm.objects('User');
+                        const oldObjects = oldRealm.objects('Uffser');
                         const newObjects = newRealm.objects('User');
-                        // loop through all objects and set the fullName property in the new schema
+                        
                         for (const objectIndex in oldObjects) {
                             const oldObject = oldObjects[objectIndex];
                             const newObject = newObjects[objectIndex];
@@ -56,6 +56,7 @@ const Home = () => {
 
     return (
         <View style={styles.container}>
+            <Header name="User List" />
             <View style={styles.formContainer}>
                 <View style={styles.form}>
 
@@ -64,8 +65,8 @@ const Home = () => {
                         data={users}
                         renderItem={({ item }) => (
                             <View>
-                                <Text style={styles.list}><Text>{item._id}.</Text>  {item.name}  {item.email}  {item.city}</Text>
-                                <Text>---------------------------------------------------------------------</Text>
+                                <Text style={styles.list} ><Text>{item._id}.</Text>  {item.name}  {item.email}  {item.city}</Text>
+                                <Text>---------------------------------------------------------------------------------</Text>
                             </View>
                         )}
                         keyExtractor={(item, index) => index.toString()}
@@ -85,15 +86,14 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "column",
     },
 
     formContainer: {
-        backgroundColor: "#fff",
         borderRadius: 20,
         marginLeft: 30,
         marginRight: 30,
         marginTop: 5,
+        backgroundColor:"#fff"
     },
     form: {
         marginTop: 10,
@@ -128,7 +128,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     list: {
-        fontSize: 15
+        fontSize: 18,
+        fontWeight:"bold"
     }
 
 });
