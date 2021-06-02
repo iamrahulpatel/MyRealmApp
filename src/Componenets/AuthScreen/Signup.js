@@ -1,11 +1,11 @@
-import React,{useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 
 import Realm from "realm";
 import { UserSchema } from "../../db/schema";
-
-import { useState } from 'react/cjs/react.development';
+import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
+import { Icon } from "native-base";
 
 
 const Signup = () => {
@@ -39,6 +39,11 @@ const Signup = () => {
             // console.log(realm.objects("User").sorted('_id', true))
             console.log("New User Added")
             // alert("New User Added Successfully")
+
+            setId('');
+            setName('')
+            setEmail('')
+            setCity('')
         }
         catch (error) {
             console.log(error)
@@ -85,34 +90,35 @@ const Signup = () => {
             console.log(error)
         }
     }
-
+    
     const gotoHome = () => {
         navigation.navigate("Home")
     }
 
     return (
         <View style={styles.container}>
+            <Header name="Signup" showIcons="true" />
             <View style={styles.formContainer}>
                 <View style={styles.form}>
-                    <TextInput keyboardType="numeric" onChangeText={e => setId(e)} placeholder="Enter your Id" style={styles.input}></TextInput>
-                    <TextInput onChangeText={e => setName(e)} placeholder="Enter your Name" style={styles.input}></TextInput>
-                    <TextInput onChangeText={e => setEmail(e)} placeholder="Enter your Email" style={styles.input}></TextInput>
-                    <TextInput onChangeText={e => setCity(e)} placeholder="Enter your City" style={styles.input}></TextInput>
+                    <TextInput blurOnSubmit={false} value={_id} keyboardType="numeric" onChangeText={e => setId(e)} placeholder="Enter your Id" style={styles.input}></TextInput>
+                    <TextInput blurOnSubmit={false} value={name} onChangeText={e => setName(e)} placeholder="Enter your Name" style={styles.input}></TextInput>
+                    <TextInput value={email} onChangeText={e => setEmail(e)} placeholder="Enter your Email" style={styles.input}></TextInput>
+                    <TextInput value={city} onChangeText={e => setCity(e)} placeholder="Enter your City" style={styles.input}></TextInput>
 
-                    <TouchableOpacity style={styles.btn}>
-                        <Text style={styles.btntext} onPress={insertUser} >Insert User</Text>
+                    <TouchableOpacity style={styles.btn} onPress={insertUser} >
+                        <Text style={styles.btntext} >Insert User</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btn}>
-                        <Text style={styles.btntext} onPress={deleteUser} >Delete User</Text>
+                    <TouchableOpacity style={styles.btn} onPress={deleteUser} >
+                        <Text style={styles.btntext} >Delete User</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btn}>
-                        <Text style={styles.btntext} onPress={updateUser} >Update User</Text>
+                    <TouchableOpacity style={styles.btn} onPress={updateUser} >
+                        <Text style={styles.btntext} >Update User</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.btn}>
-                        <Text style={styles.btntext} onPress={gotoHome} >User List</Text>
+                    <TouchableOpacity style={styles.btn} onPress={gotoHome} >
+                        <Text style={styles.btntext} >User List</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -124,7 +130,6 @@ const Signup = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "column",
     },
     formContainer: {
         backgroundColor: "#fff",
@@ -132,6 +137,8 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         marginTop: 5,
+        backgroundColor: '#0EB2BF30',
+        
     },
     form: {
         marginTop: 10,
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
         paddingLeft: "20%"
-    }
+    },
 
 });
 
